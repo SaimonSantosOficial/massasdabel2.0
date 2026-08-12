@@ -1,0 +1,60 @@
+{
+  "rules": {
+    "massasDaBel": {
+      "config": {
+        "hasAdmin": {
+          ".read": "true",
+          ".write": "!data.exists() || root.child('massasDaBel/roles/' + auth.uid).val() === 'admin'"
+        },
+        "marketing": {
+          ".read": "true",
+          ".write": "root.child('massasDaBel/roles/' + auth.uid).val() === 'admin'"
+        }
+      },
+      "roles": {
+        ".read": "true",
+        "$uid": {
+          ".write": "!data.exists() || root.child('massasDaBel/roles/' + auth.uid).val() === 'admin'"
+        }
+      },
+      "menu": {
+        ".read": "true",
+        ".write": "root.child('massasDaBel/roles/' + auth.uid).val() === 'admin'"
+      },
+      "bairros": {
+        ".read": "true",
+        ".write": "root.child('massasDaBel/roles/' + auth.uid).val() === 'admin'"
+      },
+      "users": {
+        ".read": "auth !== null && root.child('massasDaBel/roles/' + auth.uid).val() === 'admin'",
+        "$uid": {
+          ".read": "auth !== null && (auth.uid === $uid || root.child('massasDaBel/roles/' + auth.uid).val() === 'admin')",
+          ".write": "auth !== null && (auth.uid === $uid || root.child('massasDaBel/roles/' + auth.uid).val() === 'admin')"
+        }
+      },
+      "pedidos": {
+        ".read": "true",
+        "$pedidoId": {
+          ".read": "true",
+          ".write": "!data.exists() || (auth !== null && (root.child('massasDaBel/roles/' + auth.uid).val() === 'admin' || root.child('massasDaBel/roles/' + auth.uid).val() === 'entregador'))"
+        }
+      },
+      "pedidoCodigos": {
+        ".read": "true",
+        "$codigo": {
+          ".write": "!data.exists() || (auth !== null && (root.child('massasDaBel/roles/' + auth.uid).val() === 'admin' || root.child('massasDaBel/roles/' + auth.uid).val() === 'entregador'))"
+        }
+      },
+      "entregadoresAutorizados": {
+        ".read": "true",
+        ".write": "auth !== null && root.child('massasDaBel/roles/' + auth.uid).val() === 'admin'"
+      },
+      "pendingEntregadores": {
+        ".read": "auth !== null && root.child('massasDaBel/roles/' + auth.uid).val() === 'admin'",
+        "$uid": {
+          ".write": "auth !== null && auth.uid === $uid"
+        }
+      }
+    }
+  }
+}

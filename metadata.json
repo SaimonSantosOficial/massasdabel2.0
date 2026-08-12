@@ -1,0 +1,6 @@
+{
+  "name": "Massas da Bel Official",
+  "description": "Cardápio e pedidos de Massas da Bel Official",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

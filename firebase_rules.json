@@ -1,0 +1,42 @@
+{
+  "rules": {
+    "orders": {
+      // Como não usamos Firebase Auth (Login), precisamos liberar leitura/escrita
+      // A segurança do admin é feita via PIN no frontend
+      ".read": true,
+      ".write": true,
+      
+      // Indexar pelo timestamp para facilitar ordenação futura se necessário
+      ".indexOn": ["timestamp"],
+      
+      "$orderId": {
+        // Validação: Garante que o pedido tenha os campos obrigatórios e tipos corretos
+        ".validate": "newData.hasChildren(['customerName', 'total', 'status', 'timestamp', 'paymentMethod'])",
+        
+        "customerName": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+        "total": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "timestamp": {
+          ".validate": "newData.isNumber()"
+        },
+        "status": {
+          // Aceita apenas estes 3 estados
+          ".validate": "newData.val() === 'pending' || newData.val() === 'completed' || newData.val() === 'cancelled'"
+        },
+        "paymentMethod": {
+          ".validate": "newData.isString()"
+        },
+        "pasta": {
+           // Opcional, mas se existir deve ser string
+           ".validate": "!newData.exists() || newData.isString()"
+        },
+        "size": {
+          ".validate": "!newData.exists() || newData.val() === 'P' || newData.val() === 'G'"
+        }
+      }
+    }
+  }
+}
